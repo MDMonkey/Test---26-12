@@ -16,7 +16,7 @@ The dataset is read and pre-processed in the `utils` folder.
 The dataset is composed of the following input:
 - `du_dy0` is the streamwise wall-shear stress
 - `du_dy1` is the spanwise wall-shear stress
-- `p` is the wall pressure
+- `p0` is the wall pressure
 
 The outputs are at 15:
 - `u15` is the streamwise velocity fluctuations
