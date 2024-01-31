@@ -7,7 +7,7 @@ Input data are obtained from ["Resolvent-based estimation of turbulent channel f
 
 Implementation methodology based on ["Convolutional-network models to predict wall-bounded turbulence from wall quantities", L. Guastoni, A. Güemes, A.Ianiro, S Discetti, P. Schlatter, H. Azizpour, R. Vinuesa]
 
-#Pre-requisite
+# Pre-requisite
 
 The Python packages required to run the code are listed in `requirements.txt`
 
