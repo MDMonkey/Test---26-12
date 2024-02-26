@@ -60,7 +60,7 @@ dir_p_file = os.path.join(dir, file)
 data = read_h5(dir_p_file) 
 """
 
-def read_data(data):
+def read_data(args,data):
     #INPUT
     du_dy0 = data['dUdy0']
     dw_dy0 = data['dWdy0']
@@ -70,9 +70,15 @@ def read_data(data):
 
     #OUTPUT
     u15 = data['u15']
-    v15 = data['v15']
-    w15 = data['w15']
-    outputs = np.concatenate((u15, v15, w15), axis=3)
+    if args.N_VARS_OUT == 2:
+        v15 = data['v15']
+        outputs = np.concatenate((u15, v15), axis=3)
+    elif args.N_VARS_OUT == 3:
+        v15 = data['v15']
+        w15 = data['w15']
+        outputs = np.concatenate((u15, v15, w15), axis=3)
+    else:
+        outputs = u15
     outputs = np.transpose(outputs, axes = (0,3,1,2))
 
     return inputs, outputs
@@ -81,7 +87,7 @@ def import_data(args):
     # Import the data
     dir_p_file = args.file_location
     data = read_h5(dir_p_file)
-    inputs, outputs = read_data(data)
+    inputs, outputs = read_data(args,data)
 
     if args.NORMALIZE_INPUT:
         for i in range(args.N_VARS_IN):
