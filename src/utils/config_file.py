@@ -45,7 +45,7 @@ def load_args():
 	parser.add_argument('--TRAIN_YP', type=int, default=0)
 	parser.add_argument('--TARGET_YP', type=int, default=50)
 
-	parser.add_argument('--N_EPOCHS', type=int, default=1)
+	parser.add_argument('--N_EPOCHS', type=int, default=50)
 	parser.add_argument('--BATCH_SIZE', type=int, default=32)
 	parser.add_argument('--VAL_SPLIT', type=float, default=0.2)
 	parser.add_argument('--TEST_SPLIT', type=float, default=0.2)

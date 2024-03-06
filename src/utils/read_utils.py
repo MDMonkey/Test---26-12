@@ -65,17 +65,30 @@ def read_data(args,data):
     du_dy0 = data['dUdy0']
     dw_dy0 = data['dWdy0']
     p0 = data['p0']
+
+    #Reshape
+    du_dy0 = np.transpose(du_dy0, axes = (0,2,1,3)) 
+    dw_dy0 = np.transpose(dw_dy0, axes = (0,2,1,3))
+    p0 = np.transpose(p0, axes = (0,2,1,3))
+
+    #Make the input
     inputs = np.concatenate((du_dy0, dw_dy0, p0), axis=3)
     inputs = np.transpose(inputs, axes = (0,3,1,2))
 
     #OUTPUT
     u15 = data['u15']
+    v15 = data['v15']
+    w15 = data['w15']
+
+    #Reshape
+    u15 = np.transpose(u15, axes = (0,2,1,3))
+    v15 = np.transpose(v15, axes = (0,2,1,3))
+    w15 = np.transpose(w15, axes = (0,2,1,3))
+
+    #Make the output
     if args.N_VARS_OUT == 2:
-        v15 = data['v15']
         outputs = np.concatenate((u15, v15), axis=3)
     elif args.N_VARS_OUT == 3:
-        v15 = data['v15']
-        w15 = data['w15']
         outputs = np.concatenate((u15, v15, w15), axis=3)
     else:
         outputs = u15
@@ -83,11 +96,14 @@ def read_data(args,data):
 
     return inputs, outputs
 
-def import_data(args):
+def import_data(args, mean_output = False):
     # Import the data
     dir_p_file = args.file_location
     data = read_h5(dir_p_file)
     inputs, outputs = read_data(args,data)
+    
+    #Ouptut of the mean of one them
+    mean_s = np.mean(outputs[:,0,:,:], axis=0)
 
     if args.NORMALIZE_INPUT:
         for i in range(args.N_VARS_IN):
@@ -111,6 +127,9 @@ def import_data(args):
     # test is now 10% of the initial data set
     # validation is now 15% of the initial data set
     x_val, x_test, y_val, y_test = train_test_split(x_test, y_test, test_size=args.TEST_SPLIT/(args.TEST_SPLIT + args.VAL_SPLIT)) 
+
+    if mean_output:
+        return x_train, x_val, x_test, y_train, y_val, y_test, mean_s
 
     return x_train, x_val, x_test, y_train, y_val, y_test
 
